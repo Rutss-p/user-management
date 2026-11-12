@@ -15,8 +15,10 @@ function App() {
 
   const [editId, setEditId] = useState(null);
 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    //Their name attribute tells us which property to update.
 
     setForm((prev) => ({
       ...prev,
@@ -41,12 +43,17 @@ function App() {
       role: user.role,
       status: user.status
     });
-
     setEditId(user.id);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  // 1. Set existing user details into form
+  // 2. Store selected user's ID
   };
 
   const handleDelete = (id) => {
+  // 1. Ask for confirmation
+  // 2. If cancelled, stop the function
+  // 3. Remove selected user from users state
+  // 4. If this user is being edited, reset the form
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this user?'
     );
@@ -56,13 +63,26 @@ function App() {
     setUsers((prev) =>
       prev.filter((user) => user.id !== id)
     );
-
     if (editId === id) {
       resetForm();
     }
   };
 
+//   e represents the event object.  
+// Whenever an event happens in JavaScript or React, React provides information about that event through this object.
+// - Clicking a button → click event.
+// - Typing in an input → change event.
+// - Submitting a form → submit event.
+
+
+//preventDefault() prevents the browser's default behaviour for an event. We use it in React forms to prevent an unwanted page reload during form submission.
+
   const handleSubmit = (e) => {
+  // 1. Prevent default form submission
+  // 2. Check whether editId exists
+  // 3. If editing, update the matching user
+  // 4. Otherwise, create a new user
+  // 5. Reset form and editId
     e.preventDefault();
 
     if (editId !== null) {
@@ -107,10 +127,10 @@ function App() {
                 <label htmlFor="name">Full Name</label>
                 <input
                   id="name"
-                  type="text"
+                  type="name"
                   name="name"
-                  placeholder="Enter full name"
                   value={form.name}
+                  placeholder='Enter the name'
                   onChange={handleChange}
                   required
                 />
